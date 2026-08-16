@@ -1,0 +1,94 @@
+{
+  "name": "montages",
+  "type": "object",
+  "required": [
+    "interventionNumber",
+    "clientId",
+    "machineType",
+    "installationType",
+    "assignedTechnicians",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "interventionNumber": {
+      "bsonType": "string",
+      "description": "Numéro unique d'intervention (format AAAAMMJJHHXXX)"
+    },
+    "clientId": {
+      "bsonType": "string",
+      "description": "Identifiant du client"
+    },
+    "machineType": {
+      "bsonType": "string",
+      "description": "Type de machine installée"
+    },
+    "installationType": {
+      "bsonType": "string",
+      "enum": [
+        "Installation neuve",
+        "Remplacement"
+      ],
+      "description": "Type d'installation"
+    },
+    "assignedTechnicians": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "string"
+      },
+      "description": "Liste des techniciens assignés"
+      
+    },
+    "gpsValidated": {
+      "bsonType": "bool",
+      "description": "GPS validé"
+    },
+    "sections": {
+      "bsonType": "object",
+      "description": "Données des 5 sections du protocole"
+    },
+"photos": {
+  "bsonType": "array",
+  "description": "URLs des photos uploadées"
+},
+"donneesJson": {
+  "bsonType": "object",
+  "description": "Données techniques du montage : machines, heures, GPS, journaliers"
+},
+"status": {
+  "bsonType": "string",
+  "enum": [
+    "EN_COURS",
+    "TERMINEE"
+  ],
+  "description": "Statut du montage"
+},
+   "chefDeChantierId": {
+      "bsonType": "string",
+      "description": "Identifiant du chef de chantier"
+    },
+    "chefDeChantierNom": {
+      "bsonType": "string",
+      "description": "Nom du chef de chantier"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "Créateur du document"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de mise à jour ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

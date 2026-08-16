@@ -1,0 +1,63 @@
+{
+  "name": "error_codes",
+  "fields": [
+    {
+      "name": "Chapitre",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "Titre",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "Alarme",
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    {
+      "name": "Type_alarme",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "Cause",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "Action",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "actif",
+      "type": "boolean",
+      "required": false,
+      "default": true
+    },
+    {
+      "name": "creator",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "createdAt",
+      "type": "date",
+      "required": false
+    },
+    {
+      "name": "updatedAt",
+      "type": "date",
+      "required": false
+    }
+  ],
+  "permissions": {
+    "read": "NO_RESTRICTIONS",
+    "insert": "NO_RESTRICTIONS",
+    "edit": "NO_RESTRICTIONS",
+    "delete": "ADMIN_ONLY"
+  }
+}

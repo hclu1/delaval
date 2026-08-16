@@ -1,0 +1,105 @@
+{
+  "name": "machines",
+  "type": "object",
+  "required": [
+    "clientId",
+    "nom",
+    "numeroSerie",
+    "typeRelation",
+    "dateInstallation",
+    "compteur",
+    "actif",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "clientId": {
+      "bsonType": "string",
+      "description": "ID du client propriétaire"
+    },
+    "nom": {
+      "bsonType": "string",
+      "description": "Nom de la machine (V300, RC, Compresseur...)"
+    },
+    "numeroSerie": {
+      "bsonType": "string",
+      "description": "Numéro de série unique"
+    },
+    "typeRelation": {
+      "bsonType": "string",
+      "enum": [
+        "MASTER",
+        "SLAVE",
+        "PARENT",
+        "CHILD"
+      ],
+      "description": "Type de relation machine"
+    },
+    "gpsLat": {
+      "bsonType": "string",
+      "description": "Latitude GPS"
+    },
+    "gpsLng": {
+      "bsonType": "string",
+      "description": "Longitude GPS"
+    },
+    "gpsSource": {
+      "bsonType": "string",
+      "enum": [
+        "ADDRESS",
+        "FIELD"
+      ],
+      "description": "Source GPS (adresse client ou terrain)"
+    },
+    "gpsConfirmedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de confirmation GPS terrain ISO 8601"
+    },
+    "lastUpdatedBy": {
+      "bsonType": "string",
+      "description": "ID du dernier utilisateur ayant mis à jour le GPS"
+    },
+    "dateInstallation": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date d'installation ISO 8601"
+    },
+    "dateDernierEntretien": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date du dernier entretien ISO 8601"
+    },
+    "compteur": {
+      "bsonType": "int",
+      "description": "Compteur horaire ou cycles"
+    },
+    "actif": {
+      "bsonType": "bool",
+      "description": "Machine active"
+    },
+    "ordre": {
+      "bsonType": "int",
+      "description": "Ordre d'affichage des machines pour un client donné"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "ID du créateur"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de modification ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

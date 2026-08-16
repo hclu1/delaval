@@ -1,0 +1,74 @@
+{
+  "name": "clients",
+  "type": "object",
+  "required": [
+    "numeroClient",
+    "nom",
+    "nomFerme",
+    "adresse",
+    "codePostal",
+    "ville",
+    "telephone",
+    "email",
+    "actif",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "numeroClient": {
+      "bsonType": "string",
+      "description": "Numéro unique du client"
+    },
+    "nom": {
+      "bsonType": "string",
+      "description": "Nom du client"
+    },
+    "nomFerme": {
+      "bsonType": "string",
+      "description": "Nom de la ferme"
+    },
+    "adresse": {
+      "bsonType": "string",
+      "description": "Adresse complète"
+    },
+    "codePostal": {
+      "bsonType": "string",
+      "description": "Code postal"
+    },
+    "ville": {
+      "bsonType": "string",
+      "description": "Ville"
+    },
+    "telephone": {
+      "bsonType": "string",
+      "description": "Téléphone principal"
+    },
+    "email": {
+      "bsonType": "string",
+      "description": "Email du client"
+    },
+    "actif": {
+      "bsonType": "bool",
+      "description": "Client actif"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "ID du créateur"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de modification ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

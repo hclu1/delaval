@@ -1,0 +1,44 @@
+{
+  "name": "intervention_parts",
+  "type": "object",
+  "required": [
+    "interventionId",
+    "sparePartId",
+    "quantite",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "interventionId": {
+      "bsonType": "string",
+      "description": "ID de l'intervention"
+    },
+    "sparePartId": {
+      "bsonType": "string",
+      "description": "ID de la pièce détachée"
+    },
+    "quantite": {
+      "bsonType": "int",
+      "description": "Quantité utilisée"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "ID du créateur"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de modification ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

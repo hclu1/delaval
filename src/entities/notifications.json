@@ -1,0 +1,56 @@
+{
+  "name": "notifications",
+  "type": "object",
+  "required": [
+    "userId",
+    "type",
+    "title",
+    "message",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "userId": {
+      "bsonType": "string",
+      "description": "ID de l'utilisateur qui reçoit la notification"
+    },
+    "type": {
+      "bsonType": "string",
+      "description": "Type de notification"
+    },
+    "title": {
+      "bsonType": "string",
+      "description": "Titre de la notification"
+    },
+    "message": {
+      "bsonType": "string",
+      "description": "Message de la notification"
+    },
+    "data": {
+      "bsonType": "object",
+      "description": "Données additionnelles (JSON)"
+    },
+    "read": {
+      "bsonType": "bool",
+      "description": "Notification lue ou non"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de mise à jour ISO 8601"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "Creator user ID"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

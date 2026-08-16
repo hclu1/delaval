@@ -1,0 +1,80 @@
+{
+  "name": "utilisateurs",
+  "type": "object",
+  "required": [
+    "nom",
+    "prenom",
+    "email",
+    "role",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "nom": {
+      "bsonType": "string",
+      "description": "Nom de famille de l'utilisateur"
+    },
+    "prenom": {
+      "bsonType": "string",
+      "description": "Prénom de l'utilisateur"
+    },
+    "email": {
+      "bsonType": "string",
+      "description": "Adresse email de l'utilisateur"
+    },
+    "telephone": {
+      "bsonType": "string",
+      "description": "Numéro de téléphone de l'utilisateur"
+    },
+    "numeroTechnicien": {
+      "bsonType": "string",
+      "description": "Numéro unique du technicien"
+    },
+    "role": {
+      "bsonType": "string",
+      "description": "Rôle principal de l'utilisateur"
+    },
+    "role2": {
+      "bsonType": "string",
+      "description": "Deuxième rôle optionnel"
+    },
+    "role3": {
+      "bsonType": "string",
+      "description": "Troisième rôle optionnel"
+    },
+    "actif": {
+      "bsonType": "bool",
+      "description": "Indique si le compte est actif"
+    },
+    "sendEmailReport": {
+      "bsonType": "bool",
+      "description": "Active ou désactive l'envoi automatique de l'email de fin d'intervention"
+    },
+"permissions": {
+      "bsonType": "array",
+      "description": "Liste des permissions de l'utilisateur",
+      "items": {
+        "bsonType": "string"
+      }
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "Créateur de l'enregistrement"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de dernière mise à jour ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

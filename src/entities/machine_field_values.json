@@ -1,0 +1,44 @@
+{
+  "name": "machine_field_values",
+  "type": "object",
+  "required": [
+    "machineId",
+    "fieldId",
+    "value",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "machineId": {
+      "bsonType": "string",
+      "description": "ID de la machine"
+    },
+    "fieldId": {
+      "bsonType": "string",
+      "description": "ID du champ dynamique"
+    },
+    "value": {
+      "bsonType": "string",
+      "description": "Valeur du champ pour cette machine"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "ID du créateur"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de modification ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

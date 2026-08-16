@@ -1,0 +1,68 @@
+{
+  "name": "clientmessages",
+  "type": "object",
+  "required": [
+    "clientId",
+    "clientName",
+    "message",
+    "dateEnvoi",
+    "estLu",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "clientId": {
+      "bsonType": "string",
+      "description": "ID du client concerné"
+    },
+    "clientName": {
+      "bsonType": "string",
+      "description": "Nom du client (pour faciliter l'affichage)"
+    },
+    "message": {
+      "bsonType": "string",
+      "description": "Contenu du message du client"
+    },
+    "dateEnvoi": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date d'envoi du message ISO 8601"
+    },
+    "estLu": {
+      "bsonType": "bool",
+      "description": "Message lu et traité par le technicien"
+    },
+    "dateLecture": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de lecture par le technicien ISO 8601"
+    },
+    "technicienId": {
+      "bsonType": "string",
+      "description": "ID du technicien ayant lu le message"
+    },
+    "technicienName": {
+      "bsonType": "string",
+      "description": "Nom du technicien ayant lu le message"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "ID du créateur"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de modification ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

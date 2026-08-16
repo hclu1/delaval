@@ -1,0 +1,59 @@
+{
+  "name": "maintenance_kits",
+  "type": "object",
+  "required": [
+    "kitId",
+    "machineType",
+    "kitNumber",
+    "serviceNumber",
+    "nom",
+    "actif",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "kitId": {
+      "bsonType": "string",
+      "description": "Identifiant unique du kit (ex: kit_v300_2150025306_1)"
+    },
+    "machineType": {
+      "bsonType": "string",
+      "description": "Type de machine (ex: V 300)"
+    },
+    "kitNumber": {
+      "bsonType": "string",
+      "description": "Numéro du kit (ex: 2150025306)"
+    },
+    "serviceNumber": {
+      "bsonType": "int",
+      "description": "Numéro du service (ex: 1, 2, 3)"
+    },
+    "nom": {
+      "bsonType": "string",
+      "description": "Nom complet du kit (ex: Kit Entretien V 300-2150025306-Service (1))"
+    },
+    "actif": {
+      "bsonType": "bool",
+      "description": "Kit actif ou non"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "Créateur de l'entrée"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de dernière mise à jour"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

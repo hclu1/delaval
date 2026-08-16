@@ -1,0 +1,44 @@
+{
+  "name": "machine_field_options",
+  "type": "object",
+  "required": [
+    "fieldId",
+    "value",
+    "order",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "fieldId": {
+      "bsonType": "string",
+      "description": "ID du champ parent"
+    },
+    "value": {
+      "bsonType": "string",
+      "description": "Valeur de l'option"
+    },
+    "order": {
+      "bsonType": "int",
+      "description": "Ordre d'affichage"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "ID du créateur"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de modification ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

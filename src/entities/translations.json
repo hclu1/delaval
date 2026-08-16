@@ -1,0 +1,58 @@
+{
+  "name": "translations",
+  "type": "object",
+  "required": [
+    "key",
+    "languageCode",
+    "value",
+    "context",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "key": {
+      "bsonType": "string",
+      "description": "Clé unique de traduction (ex: dashboard.welcome)"
+    },
+    "languageCode": {
+      "bsonType": "string",
+      "description": "Code de la langue (ex: fr, en)"
+    },
+    "value": {
+      "bsonType": "string",
+      "description": "Texte traduit"
+    },
+    "context": {
+      "bsonType": "string",
+      "description": "Contexte d'utilisation (Dashboard, Clients, Machines, etc.)"
+    },
+    "lastModified": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de dernière modification ISO 8601"
+    },
+    "modifiedBy": {
+      "bsonType": "string",
+      "description": "ID de l'utilisateur ayant modifié"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "ID du créateur"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de modification ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

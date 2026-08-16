@@ -1,0 +1,70 @@
+{
+  "name": "taches_entretien",
+  "type": "object",
+  "required": [
+    "idTache",
+    "kitId",
+    "section",
+    "description",
+    "ordre",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "idTache": {
+      "bsonType": "string",
+      "description": "Identifiant unique de la tâche (ex: T103, T101)"
+    },
+    "kitId": {
+      "bsonType": "string",
+      "description": "Référence au kit d'entretien (ex: kit_v300_2150025306_1)"
+    },
+    "section": {
+      "bsonType": "string",
+      "description": "Section/catégorie de la tâche (ex: Compresseur d'air, Système de vide VMS)"
+    },
+    "description": {
+      "bsonType": "string",
+      "description": "Description détaillée de la tâche d'entretien"
+    },
+    "module": {
+      "bsonType": "string",
+      "description": "Module associé à la tâche"
+    },
+    "etat": {
+      "bsonType": "string",
+      "description": "État de la tâche"
+    },
+    "refPiece": {
+      "bsonType": "string",
+      "description": "Référence de la pièce détachée associée"
+    },
+    "quantite": {
+      "bsonType": "string",
+      "description": "Quantité de pièces nécessaires"
+    },
+    "ordre": {
+      "bsonType": "int",
+      "description": "Ordre d'affichage de la tâche"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "Créateur de l'entrée"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de dernière mise à jour"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

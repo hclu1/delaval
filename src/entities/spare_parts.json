@@ -1,0 +1,111 @@
+{
+  "name": "spare_parts",
+  "type": "object",
+  "required": [
+    "reference",
+    "designation",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "del": {
+      "bsonType": "string",
+      "description": "DEL"
+    },
+    "referenceUM": {
+      "bsonType": "string",
+      "description": "REFERENCE U.M. (ex: 30125 PCE)"
+    },
+    "reference": {
+      "bsonType": "string",
+      "description": "Référence unique de la pièce"
+    },
+    "designation": {
+      "bsonType": "string",
+      "description": "Désignation de la pièce"
+    },
+    "deBaseHT": {
+      "bsonType": "string",
+      "description": "Prix de base HT"
+    },
+    "codeVenti": {
+      "bsonType": "string",
+      "description": "CODE VENTI"
+    },
+    "grRem": {
+      "bsonType": "string",
+      "description": "GR REM"
+    },
+    "grosp": {
+      "bsonType": "string",
+      "description": "GROSP"
+    },
+    "cTVA": {
+      "bsonType": "string",
+      "description": "C TVA"
+    },
+    "marque": {
+      "bsonType": "string",
+      "description": "Marque de la pièce"
+    },
+    "codeBarre": {
+      "bsonType": "string",
+      "description": "CODE BARRE"
+    },
+    "date": {
+      "bsonType": "string",
+      "description": "DATE"
+    },
+    "tarif": {
+      "bsonType": "string",
+      "description": "TARIF"
+    },
+    "famc": {
+      "bsonType": "string",
+      "description": "famc"
+    },
+    "fams": {
+      "bsonType": "string",
+      "description": "fams"
+    },
+    "remi": {
+      "bsonType": "string",
+      "description": "remi"
+    },
+    "stock": {
+      "bsonType": "int",
+      "description": "Quantité en stock"
+    },
+    "seuilAlerte": {
+      "bsonType": "int",
+      "description": "Seuil d'alerte stock"
+    },
+    "prixUnitaire": {
+      "bsonType": "double",
+      "description": "Prix unitaire"
+    },
+    "actif": {
+      "bsonType": "bool",
+      "description": "Pièce active"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "Créateur de l'enregistrement"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de mise à jour"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

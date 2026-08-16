@@ -1,0 +1,113 @@
+{
+  "name": "users",
+  "type": "object",
+  "required": [
+    "email",
+    "nom",
+    "prenom",
+    "numeroTechnicien",
+    "role",
+    "permissions",
+    "actif",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "email": {
+      "bsonType": "string",
+      "description": "Email de l'utilisateur"
+    },
+    "nom": {
+      "bsonType": "string",
+      "description": "Nom de famille"
+    },
+    "prenom": {
+      "bsonType": "string",
+      "description": "Prénom"
+    },
+    "numeroTechnicien": {
+      "bsonType": "string",
+      "description": "Numéro unique du technicien (3 chiffres)"
+    },
+    "role": {
+      "bsonType": "string",
+      "enum": [
+        "ADMIN",
+        "DIRECTEUR",
+        "RESP_TECHNIQUE",
+        "RESP_SUPERIEUR",
+        "CHEF_TECH_CMS",
+        "CHEF_TECH_VMS",
+        "TECH_CMS",
+        "TECH_VMS",
+        "CHEF_MONTEUR",
+        "MONTEUR",
+        "MAGASINIER",
+        "CLIENT"
+      ],
+      "description": "Rôle de l'utilisateur"
+    },
+    "permissions": {
+      "bsonType": "object",
+      "description": "Permissions configurables par coches",
+      "properties": {
+        "viewAllClients": {
+          "bsonType": "bool"
+        },
+        "editClients": {
+          "bsonType": "bool"
+        },
+        "viewAllMachines": {
+          "bsonType": "bool"
+        },
+        "editMachines": {
+          "bsonType": "bool"
+        },
+        "createIntervention": {
+          "bsonType": "bool"
+        },
+        "viewAllInterventions": {
+          "bsonType": "bool"
+        },
+        "editInterventions": {
+          "bsonType": "bool"
+        },
+        "manageUsers": {
+          "bsonType": "bool"
+        },
+        "manageParts": {
+          "bsonType": "bool"
+        },
+        "viewReports": {
+          "bsonType": "bool"
+        },
+        "viewStatistics": {
+          "bsonType": "bool"
+        }
+      }
+    },
+    "actif": {
+      "bsonType": "bool",
+      "description": "Compte actif ou désactivé"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "ID du créateur"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de dernière modification ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}

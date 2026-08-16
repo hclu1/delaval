@@ -1,0 +1,199 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Technicien {
+  id        String   @id @default(uuid())
+  nom       String
+  prenom    String?
+  email     String   @unique
+  roles     String   @default("TECHNICIEN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Client {
+  id           String    @id @default(uuid())
+  nom          String
+  numeroClient String    @unique
+  adresse      String?
+  codePostal   String?
+  ville        String?
+  machines     Machine[]
+  interventions Intervention[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Machine {
+  id                 String   @id @default(uuid())
+  nom                String
+  serie              String?
+  typeMachineNom     String?
+  relationType       String?
+  clientId           String
+  
+  numeroSerie        String?
+  versionNumero      String?
+  machineType        String?
+  typeRelation       String?
+  dateInstallation   DateTime?
+  dernierEntretien   String?
+  periodeEntretien   Int?
+  compteur           Int?
+  gpsLat             Float?
+  gpsLng             Float?
+  gpsSource          String?
+  notes              String?
+  configType         String?
+  pumpType           String?
+  pumpVariator       String?
+  pumpCabinet        String?
+  v300Option         String?
+  otherConfigDetails String?
+  customFields       String?  // JSON string
+  pumpExtraFields    String?  // JSON string
+  v300ExtraFields    String?  // JSON string
+  otherExtraFields   String?  // JSON string
+  ordre              Int?
+
+  client             Client         @relation(fields: [clientId], references: [id])
+  interventions      Intervention[]
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+}
+
+model Intervention {
+  id          String    @id @default(uuid())
+  statut      String    // ex: "EN_COURS", "TERMINE"
+  dateDebut   DateTime?
+  dateFin     DateTime?
+  description String?
+  notes       String?
+  
+  type          String?
+  numeroIntervention String?
+  diagnostic    String?
+  technicienId  String?
+  technicianName String?
+  
+  // JSON field for complex nested data (sections, tasks)
+  donneesTechniques String? 
+  
+  clientId    String
+  client      Client    @relation(fields: [clientId], references: [id])
+  
+  machineId   String?
+  machine     Machine?  @relation(fields: [machineId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model MaintenanceKit {
+  id            String   @id @default(uuid())
+  kitId         String   @unique
+  machineType   String
+  kitNumber     String
+  serviceNumber Int
+  nom           String
+  actif         Boolean  @default(true)
+  creator       String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  taches        TacheEntretien[]
+}
+
+model TacheEntretien {
+  id          String   @id @default(uuid())
+  idTache     String
+  section     String?
+  description String
+  module      String?
+  etat        String?
+  refPiece    String?
+  quantite    String?
+  ordre       Int      @default(0)
+  creator     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  kitId       String
+  kit         MaintenanceKit @relation(fields: [kitId], references: [kitId])
+}
+
+model SparePart {
+  id           String   @id @default(uuid())
+  reference    String   @unique
+  designation  String
+  stock        Int      @default(0)
+  seuilAlerte  Int      @default(0)
+  prixUnitaire Float    @default(0)
+  
+  del          String?
+  referenceUM  String?
+  deBaseHT     String?
+  codeVenti    String?
+  grRem        String?
+  grosp        String?
+  cTVA         String?
+  marque       String?
+  codeBarre    String?
+  date         String?
+  famc         String?
+  fams         String?
+  remi         String?
+  
+  actif        Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ErrorCode {
+  id         String   @id @default(uuid())
+  alarme     String?
+  typeAlarme String?
+  chapitre   String?
+  titre      String?
+  cause      String?
+  action     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model MachineField {
+  id               String   @id @default(uuid())
+  machineType      String
+  label            String
+  fieldType        String
+  isRequired       Boolean  @default(false)
+  isActive         Boolean  @default(true)
+  order            Int      @default(0)
+  parentField      String?
+  parentValue      String?
+  allowCustomValue Boolean  @default(false)
+  creator          String?
+  creatorEmail     String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model MachineFieldOption {
+  id           String   @id @default(uuid())
+  fieldLabel   String
+  value        String
+  order        Int      @default(0)
+  creator      String?
+  creatorEmail String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

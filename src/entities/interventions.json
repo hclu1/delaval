@@ -1,0 +1,197 @@
+{
+  "name": "interventions",
+  "type": "object",
+  "required": [
+    "numeroIntervention",
+    "type",
+    "technicienId",
+    "clientId",
+    "machineIds",
+    "statut",
+    "dateDebut",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "numeroIntervention": {
+      "bsonType": "string",
+      "description": "Numéro unique AAAAMMJJHH + N° technicien"
+    },
+    "type": {
+      "bsonType": "string",
+      "enum": [
+        "REPAIR",
+        "MAINTENANCE",
+        "INSTALLATION",
+        "COMMISSIONING"
+      ],
+      "description": "Type d'intervention"
+    },
+    "technicienId": {
+      "bsonType": "string",
+      "description": "ID du technicien"
+    },
+    "clientId": {
+      "bsonType": "string",
+      "description": "ID du client"
+    },
+    "machineIds": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "string"
+      },
+      "description": "IDs des machines concernées"
+    },
+    "statut": {
+      "bsonType": "string",
+      "enum": [
+        "PLANIFIEE",
+        "EN_COURS",
+        "TERMINEE",
+        "ANNULEE"
+      ],
+      "description": "Statut de l'intervention"
+    },
+    "dateDebut": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date/heure de début ISO 8601"
+    },
+    "dateFin": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date/heure de fin ISO 8601"
+    },
+    "duree": {
+      "bsonType": "int",
+      "description": "Durée en minutes"
+    },
+    "gpsLat": {
+      "bsonType": "string",
+      "description": "Latitude GPS de l'intervention"
+    },
+    "gpsLng": {
+      "bsonType": "string",
+      "description": "Longitude GPS de l'intervention"
+    },
+    "gpsStartLat": {
+      "bsonType": "string",
+      "description": "Latitude GPS au démarrage"
+    },
+    "gpsStartLng": {
+      "bsonType": "string",
+      "description": "Longitude GPS au démarrage"
+    },
+    "gpsEndLat": {
+      "bsonType": "string",
+      "description": "Latitude GPS à la fin"
+    },
+    "gpsEndLng": {
+      "bsonType": "string",
+      "description": "Longitude GPS à la fin"
+    },
+    "totalDuration": {
+      "bsonType": "int",
+      "description": "Durée totale en minutes (incluant pauses)"
+    },
+    "pausesGps": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "object"
+      },
+      "description": "Historique des pauses GPS (éloignements > 200m)"
+    },
+    "distanceEvents": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "object"
+      },
+      "description": "Événements de distance (éloignement/retour)"
+    },
+    "diagnostics": {
+      "bsonType": "array",
+      "description": "Liste des constatations et diagnostics de l'intervention",
+      "items": {
+        "bsonType": "object",
+        "required": [
+          "id",
+          "constatation"
+        ],
+        "properties": {
+          "id": {
+            "bsonType": "string",
+            "description": "ID unique de la constatation"
+          },
+          "constatation": {
+            "bsonType": "string",
+            "description": "Description de la constatation"
+          },
+          "resolu": {
+            "bsonType": "bool",
+            "description": "Statut de résolution"
+          },
+          "action": {
+            "bsonType": "string",
+            "description": "Action réalisée"
+          }
+        }
+      }
+    },
+    "piecesUtilisees": {
+      "bsonType": "array",
+      "description": "Liste des pièces détachées utilisées",
+      "items": {
+        "bsonType": "object",
+        "required": [
+          "partId",
+          "quantity"
+        ],
+        "properties": {
+          "partId": {
+            "bsonType": "string",
+            "description": "ID de la pièce détachée"
+          },
+          "quantity": {
+            "bsonType": "int",
+            "description": "Quantité utilisée"
+          },
+          "designation": {
+            "bsonType": "string",
+            "description": "Désignation de la pièce (pour l'affichage)"
+          }
+        }
+      }
+    },
+    "signatureTechnicien": {
+      "bsonType": "string",
+      "description": "Signature numérique du technicien"
+    },
+    "signatureClient": {
+      "bsonType": "string",
+      "description": "Signature numérique du client"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "ID du créateur"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de modification ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    },
+    "protocolData": {
+      "bsonType": "object",
+      "description": "Données détaillées du protocole JSON (checklists, constatations, pièces)"
+    }
+  }
+}

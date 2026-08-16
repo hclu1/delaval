@@ -1,0 +1,67 @@
+{
+  "name": "machine_fields",
+  "type": "object",
+  "required": [
+    "machineType",
+    "label",
+    "fieldType",
+    "isRequired",
+    "isActive",
+    "order",
+    "creator",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "machineType": {
+      "bsonType": "string",
+      "description": "Type de machine concerné"
+    },
+    "label": {
+      "bsonType": "string",
+      "description": "Libellé du champ"
+    },
+    "fieldType": {
+      "bsonType": "string",
+      "enum": [
+        "select",
+        "text",
+        "number",
+        "date",
+        "checkbox",
+        "tag"
+      ],
+      "description": "Type de champ dynamique"
+    },
+    "isRequired": {
+      "bsonType": "bool",
+      "description": "Champ obligatoire"
+    },
+    "isActive": {
+      "bsonType": "bool",
+      "description": "Champ actif"
+    },
+    "order": {
+      "bsonType": "int",
+      "description": "Ordre d'affichage"
+    },
+    "creator": {
+      "bsonType": "string",
+      "description": "ID du créateur"
+    },
+    "createdAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de création ISO 8601"
+    },
+    "updatedAt": {
+      "bsonType": "string",
+      "title": "datetime",
+      "description": "Date de modification ISO 8601"
+    },
+    "creatorEmail": {
+      "bsonType": "string",
+      "description": "Creator user email"
+    }
+  }
+}
