@@ -16,31 +16,41 @@ model Technicien {
   prenom    String?
   email     String   @unique
   roles     String   @default("TECHNICIEN")
+  
+  magicLinkToken     String?   @unique
+  magicLinkPassword  String?
+  magicLinkExpiresAt DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Client {
-  id           String    @id @default(uuid())
-  nom          String
-  numeroClient String    @unique
-  adresse      String?
-  codePostal   String?
-  ville        String?
-  machines     Machine[]
+  id            String         @id @default(uuid())
+  nom           String
+  numeroClient  String         @unique
+  adresse       String?
+  codePostal    String?
+  ville         String?
+  
+  magicLinkToken     String?   @unique
+  magicLinkPassword  String?
+  magicLinkExpiresAt DateTime?
+
+  machines      Machine[]
   interventions Intervention[]
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Machine {
-  id                 String   @id @default(uuid())
-  nom                String
-  serie              String?
-  typeMachineNom     String?
-  relationType       String?
-  clientId           String
-  
+  id             String  @id @default(uuid())
+  nom            String
+  serie          String?
+  typeMachineNom String?
+  relationType   String?
+  clientId       String
+
   numeroSerie        String?
   versionNumero      String?
   machineType        String?
@@ -59,43 +69,43 @@ model Machine {
   pumpCabinet        String?
   v300Option         String?
   otherConfigDetails String?
-  customFields       String?  // JSON string
-  pumpExtraFields    String?  // JSON string
-  v300ExtraFields    String?  // JSON string
-  otherExtraFields   String?  // JSON string
+  customFields       String? // JSON string
+  pumpExtraFields    String? // JSON string
+  v300ExtraFields    String? // JSON string
+  otherExtraFields   String? // JSON string
   ordre              Int?
 
-  client             Client         @relation(fields: [clientId], references: [id])
-  interventions      Intervention[]
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
+  client        Client         @relation(fields: [clientId], references: [id])
+  interventions Intervention[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Intervention {
   id          String    @id @default(uuid())
-  statut      String    // ex: "EN_COURS", "TERMINE"
+  statut      String // ex: "EN_COURS", "TERMINE"
   dateDebut   DateTime?
   dateFin     DateTime?
   description String?
   notes       String?
-  
-  type          String?
-  numeroIntervention String?
-  diagnostic    String?
-  technicienId  String?
-  technicianName String?
-  
-  // JSON field for complex nested data (sections, tasks)
-  donneesTechniques String? 
-  
-  clientId    String
-  client      Client    @relation(fields: [clientId], references: [id])
-  
-  machineId   String?
-  machine     Machine?  @relation(fields: [machineId], references: [id])
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  type               String?
+  numeroIntervention String?
+  diagnostic         String?
+  technicienId       String?
+  technicianName     String?
+
+  // JSON field for complex nested data (sections, tasks)
+  donneesTechniques String?
+
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id])
+
+  machineId String?
+  machine   Machine? @relation(fields: [machineId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model MaintenanceKit {
@@ -110,7 +120,7 @@ model MaintenanceKit {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  taches        TacheEntretien[]
+  taches TacheEntretien[]
 }
 
 model TacheEntretien {
@@ -127,35 +137,35 @@ model TacheEntretien {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  kitId       String
-  kit         MaintenanceKit @relation(fields: [kitId], references: [kitId])
+  kitId String
+  kit   MaintenanceKit @relation(fields: [kitId], references: [kitId])
 }
 
 model SparePart {
-  id           String   @id @default(uuid())
-  reference    String   @unique
+  id           String @id @default(uuid())
+  reference    String @unique
   designation  String
-  stock        Int      @default(0)
-  seuilAlerte  Int      @default(0)
-  prixUnitaire Float    @default(0)
-  
-  del          String?
-  referenceUM  String?
-  deBaseHT     String?
-  codeVenti    String?
-  grRem        String?
-  grosp        String?
-  cTVA         String?
-  marque       String?
-  codeBarre    String?
-  date         String?
-  famc         String?
-  fams         String?
-  remi         String?
-  
-  actif        Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  stock        Int    @default(0)
+  seuilAlerte  Int    @default(0)
+  prixUnitaire Float  @default(0)
+
+  del         String?
+  referenceUM String?
+  deBaseHT    String?
+  codeVenti   String?
+  grRem       String?
+  grosp       String?
+  cTVA        String?
+  marque      String?
+  codeBarre   String?
+  date        String?
+  famc        String?
+  fams        String?
+  remi        String?
+
+  actif     Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ErrorCode {

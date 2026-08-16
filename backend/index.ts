@@ -138,8 +138,87 @@ app.get('/api/auth/me', authenticateToken, async (req: any, res) => {
   return res.status(401).json({ error: 'Utilisateur non trouvé' });
 });
 
+import crypto from 'crypto';
+
+app.post('/api/auth/generate-magic-link', authenticateToken, async (req: any, res) => {
+  // Only admins can generate magic links
+  if (!req.user || !['ADMIN', 'ADMINISTRATEUR'].includes(req.user.role)) {
+    return res.status(403).json({ error: 'Accès refusé' });
+  }
+
+  const { email, role, nom, prenom } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email manquant' });
+
+  try {
+    let technicien = await prisma.technicien.findUnique({ where: { email } });
+    if (!technicien) {
+      technicien = await prisma.technicien.create({
+        data: {
+          email,
+          nom: nom || 'Inconnu',
+          prenom: prenom || 'Inconnu',
+          roles: role || 'TECHNICIEN'
+        }
+      });
+    }
+
+    const magicLinkToken = crypto.randomUUID();
+    const magicLinkPassword = Math.floor(100000 + Math.random() * 900000).toString(); // 6 digits
+    const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000); // 48 hours
+
+    await prisma.technicien.update({
+      where: { email },
+      data: {
+        magicLinkToken,
+        magicLinkPassword,
+        magicLinkExpiresAt: expiresAt
+      }
+    });
+
+    // TODO: Ideally trigger Sendinblue email here. For now, return the token so admin can see it.
+    res.json({ success: true, token: magicLinkToken, password: magicLinkPassword, email });
+  } catch (error) {
+    console.error('Erreur génération lien:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+app.post('/api/auth/magic-login', async (req, res) => {
+  const { token, password } = req.body;
+  if (!token || !password) return res.status(400).json({ error: 'Paramètres manquants' });
+
+  try {
+    const technicien = await prisma.technicien.findUnique({ where: { magicLinkToken: token } });
+    if (!technicien) return res.status(401).json({ error: 'Lien invalide' });
+
+    if (technicien.magicLinkPassword !== password) {
+      return res.status(401).json({ error: 'Mot de passe incorrect' });
+    }
+
+    if (technicien.magicLinkExpiresAt && new Date() > technicien.magicLinkExpiresAt) {
+      return res.status(401).json({ error: 'Lien expiré' });
+    }
+
+    // Clear the token
+    await prisma.technicien.update({
+      where: { id: technicien.id },
+      data: { magicLinkToken: null, magicLinkPassword: null, magicLinkExpiresAt: null }
+    });
+
+    const jwtToken = jwt.sign({ id: technicien.id, role: technicien.roles, email: technicien.email, type: 'technicien' }, JWT_SECRET, { expiresIn: '30d' });
+
+    return res.json({
+      user: { id: technicien.id, role: technicien.roles, name: `${technicien.prenom} ${technicien.nom}`, email: technicien.email },
+      token: jwtToken
+    });
+  } catch (error) {
+    console.error('Erreur magic login:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
 app.use('/api/*', (req, res, next) => {
-  if (req.path === '/api/auth/signin' || req.path === '/api/auth/google' || req.path === '/api/auth/me') {
+  if (req.path === '/api/auth/signin' || req.path === '/api/auth/google' || req.path === '/api/auth/me' || req.path === '/api/auth/magic-login') {
     return next();
   }
   authenticateToken(req, res, next);

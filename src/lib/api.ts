@@ -44,6 +44,20 @@ export const api = {
       if (data.token) localStorage.setItem('authToken', data.token);
       return data.user;
     },
+    generateMagicLink: async (params: { email: string; role?: string; nom?: string; prenom?: string }) => {
+      return fetchAPI('/auth/generate-magic-link', {
+        method: 'POST',
+        body: JSON.stringify(params)
+      });
+    },
+    magicLogin: async (credentials: { token: string; password: string }) => {
+      const data = await fetchAPI('/auth/magic-login', {
+        method: 'POST',
+        body: JSON.stringify(credentials)
+      });
+      if (data.token) localStorage.setItem('authToken', data.token);
+      return data.user;
+    },
     signOut: async () => {
       localStorage.removeItem('authToken');
     },

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from './lib/api';
 import { useAuth } from './hooks/useAuth';
 import { LoginScreen } from './components/auth/LoginScreen';
+import { MagicLoginScreen } from './components/auth/MagicLoginScreen';
 import { Layout } from './components/common/Layout';
 import { Dashboard } from './screens/Dashboard';
 import { ClientsScreen } from './screens/clients/ClientsScreen';
@@ -125,6 +126,13 @@ export default function App() {
   }
 
   if (!isAuthenticated) {
+    const path = window.location.pathname;
+    if (path.startsWith('/login/magic/')) {
+      const token = path.split('/login/magic/')[1];
+      if (token) {
+        return <MagicLoginScreen token={token} onLoginSuccess={handleLoginSuccess} />;
+      }
+    }
     return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
   }
 

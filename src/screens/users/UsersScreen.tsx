@@ -4,7 +4,7 @@ import { Button } from '../../components/common/Button';
 import { SearchBar } from '../../components/common/SearchBar';
 import { Input } from '../../components/common/Input';
 import { Select } from '../../components/common/Select';
-import {Plus, Users, Edit, Trash2, Save, X, Shield, Mail, ChevronDown, ChevronUp, CheckCircle} from 'lucide-react';
+import {Plus, Users, Edit, Trash2, Save, X, Shield, Mail, ChevronDown, ChevronUp, CheckCircle, Key} from 'lucide-react';
 import { api } from '../../lib/api';
 // AJOUT: Import pour récupérer l'utilisateur connecté
 import { useAuth } from '../../hooks/useAuth'; 
@@ -328,9 +328,32 @@ const filteredUsers = users.filter(user =>
     user.numeroTechnicien?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const [magicLinkData, setMagicLinkData] = useState<{url: string, password: string, email: string} | null>(null);
+
+  const handleGenerateMagicLink = async (user: any) => {
+    if (!user.email) { alert('Pas d\'email'); return; }
+    const confirmed = confirm(`Générer un lien magique (mot de passe temporaire) pour ${user.email} ?`);
+    if (!confirmed) return;
+    setLoading(true);
+    try {
+      const response = await api.auth.generateMagicLink({
+        email: user.email,
+        nom: user.nom,
+        prenom: user.prenom,
+        role: user.role
+      });
+      const magicUrl = `${window.location.origin}/login/magic/${response.token}`;
+      setMagicLinkData({ url: magicUrl, password: response.password, email: user.email });
+    } catch (error) {
+      alert(`Erreur : ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSendInvitation = async (user: any) => {
     if (!user.email) { alert('Pas d\'email'); return; }
-    const confirmed = confirm(`Envoyer l'invitation à ${user.email} ?`);
+    const confirmed = confirm(`Envoyer l'invitation Google à ${user.email} ?`);
     if (!confirmed) return;
     setLoading(true);
     try {
@@ -802,10 +825,18 @@ const filteredUsers = users.filter(user =>
                       </button>
 <div className="flex items-center">
   <button
+    onClick={() => handleGenerateMagicLink(user)}
+    disabled={!user.email}
+    className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+    title={user.email ? "Générer un lien magique (mot de passe temporaire)" : "Pas d'email"}
+  >
+    <Key size={18} />
+  </button>
+  <button
     onClick={() => handleSendInvitation(user)}
     disabled={!user.email}
     className="p-2 text-green-600 hover:bg-green-50 rounded-lg disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
-    title={user.email ? "Envoyer l'invitation" : "Pas d'email"}
+    title={user.email ? "Envoyer l'invitation Google" : "Pas d'email"}
   >
     <Mail size={18} />
   </button>
@@ -858,6 +889,48 @@ const filteredUsers = users.filter(user =>
             </div>
           )}
         </>
+      )}
+      {/* Magic Link Modal */}
+      {magicLinkData && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h3 className="text-lg font-bold">Lien de Connexion Magique</h3>
+              <button onClick={() => setMagicLinkData(null)} className="text-gray-500 hover:text-gray-700">
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-4 space-y-4">
+              <p className="text-sm text-gray-600">
+                Lien généré pour <strong>{magicLinkData.email}</strong>. Il est valide pour 48 heures.
+                Vous pouvez envoyer ce lien et ce mot de passe à l'utilisateur :
+              </p>
+              
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase">Lien d'accès :</label>
+                <div className="mt-1 flex items-center bg-gray-50 p-2 rounded border break-all text-sm font-mono text-blue-600">
+                  {magicLinkData.url}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase">Mot de passe temporaire :</label>
+                <div className="mt-1 flex items-center bg-gray-50 p-3 rounded border justify-center">
+                  <span className="text-2xl font-bold tracking-[0.5em] text-gray-900">{magicLinkData.password}</span>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <Button onClick={() => {
+                  navigator.clipboard.writeText(`Bonjour,\nVoici votre lien d'accès: ${magicLinkData.url}\nVotre mot de passe temporaire: ${magicLinkData.password}`);
+                  alert('Lien et mot de passe copiés dans le presse-papier !');
+                }} className="w-full">
+                  Copier le message
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
