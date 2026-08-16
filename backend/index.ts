@@ -13,12 +13,35 @@ const upload = multer({ storage: multer.memoryStorage() });
 app.use(cors());
 app.use(express.json());
 
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-dev-only-change-me';
+const AUTHORIZED_ADMIN_EMAILS = [
+  'champagcrypt@gmail.com',
+  'hchampag1@hotmail.fr',
+  'lchampelectr55@aol.com',
+  'lqfchampagne@gmail.com',
+  'laurent.champagne@soplan-elevage.com'
+];
+
+function authenticateToken(req: any, res: any, next: any) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  
+  if (!token) return res.status(401).json({ error: 'Accès non autorisé' });
+
+  jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
+    if (err) return res.status(403).json({ error: 'Jeton invalide ou expiré' });
+    req.user = user;
+    next();
+  });
+}
+
 // ==========================================
 // AUTHENTIFICATION (Mock/Basic & Google)
 // ==========================================
 import { OAuth2Client } from 'google-auth-library';
 import * as dotenv from 'dotenv';
-import path from 'path';
 
 // Charge les variables d'environnement depuis le fichier .env.local du frontend
 dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
@@ -43,10 +66,11 @@ app.post('/api/auth/signin', async (req, res) => {
     return res.status(401).json({ error: 'Identifiants invalides' });
   }
 
-  // Pour simplifier, on renvoie les infos du client et un "token" bidon
+  const token = jwt.sign({ id: client.id, role: 'CLIENT_ACCESS', type: 'client' }, JWT_SECRET, { expiresIn: '7d' });
+
   return res.json({ 
     user: { id: client.id, role: 'CLIENT_ACCESS', name: client.nom, clientId: client.id },
-    token: 'mock-jwt-token' 
+    token
   });
 });
 
@@ -57,27 +81,34 @@ app.post('/api/auth/google', async (req, res) => {
   try {
     const ticket = await googleClient.verifyIdToken({
       idToken: token,
-      audience: GOOGLE_CLIENT_ID,  // On vérifie que le token est bien pour notre app
+      audience: GOOGLE_CLIENT_ID,
     });
     const payload = ticket.getPayload();
     if (!payload || !payload.email) return res.status(401).json({ error: 'Token invalide' });
 
-    // Cherche le technicien ou le crée
     let technicien = await prisma.technicien.findUnique({ where: { email: payload.email } });
-    if (!technicien) {
+    
+    // Auto-create if it's one of the super admins
+    if (!technicien && AUTHORIZED_ADMIN_EMAILS.includes(payload.email)) {
       technicien = await prisma.technicien.create({
         data: {
           email: payload.email,
-          nom: payload.family_name || 'Inconnu',
-          prenom: payload.given_name || 'Inconnu',
-          roles: 'TECHNICIEN'
+          nom: payload.family_name || 'Admin',
+          prenom: payload.given_name || 'Admin',
+          roles: 'ADMINISTRATEUR'
         }
       });
     }
 
+    if (!technicien) {
+      return res.status(403).json({ error: 'Accès refusé: Votre adresse email n\'est pas autorisée. Veuillez contacter un administrateur.' });
+    }
+
+    const jwtToken = jwt.sign({ id: technicien.id, role: technicien.roles, email: technicien.email, type: 'technicien' }, JWT_SECRET, { expiresIn: '7d' });
+
     return res.json({
-      user: { id: technicien.id, role: 'ADMIN', name: `${technicien.prenom} ${technicien.nom}`, email: technicien.email },
-      token: 'mock-jwt-technicien-token'
+      user: { id: technicien.id, role: technicien.roles, name: `${technicien.prenom} ${technicien.nom}`, email: technicien.email },
+      token: jwtToken
     });
   } catch (error) {
     console.error('Erreur verification Google:', error);
@@ -85,17 +116,33 @@ app.post('/api/auth/google', async (req, res) => {
   }
 });
 
-app.get('/api/auth/me', async (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'Non autorisé' });
+app.get('/api/auth/me', authenticateToken, async (req: any, res) => {
+  const { id, type } = req.user;
   
-  const technicien = await prisma.technicien.findFirst();
-  if (technicien) {
-    return res.json({
-      user: { id: technicien.id, role: 'ADMIN', name: `${technicien.prenom} ${technicien.nom}`, email: technicien.email }
-    });
+  if (type === 'technicien') {
+    const technicien = await prisma.technicien.findUnique({ where: { id } });
+    if (technicien) {
+      return res.json({
+        user: { id: technicien.id, role: technicien.roles, name: `${technicien.prenom} ${technicien.nom}`, email: technicien.email }
+      });
+    }
+  } else if (type === 'client') {
+    const client = await prisma.client.findUnique({ where: { id } });
+    if (client) {
+      return res.json({
+        user: { id: client.id, role: 'CLIENT_ACCESS', name: client.nom, clientId: client.id }
+      });
+    }
   }
+  
   return res.status(401).json({ error: 'Utilisateur non trouvé' });
+});
+
+app.use('/api/*', (req, res, next) => {
+  if (req.path === '/api/auth/signin' || req.path === '/api/auth/google' || req.path === '/api/auth/me') {
+    return next();
+  }
+  authenticateToken(req, res, next);
 });
 
 // ==========================================
