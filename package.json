@@ -9,7 +9,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "cd backend && npm install && npx prisma generate && npx prisma db push --accept-data-loss",
+    "postinstall": "cd backend && npm install && npx prisma generate",
     "release:patch": "npm version patch",
     "release:minor": "npm version minor",
     "release:major": "npm version major"
