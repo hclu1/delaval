@@ -421,7 +421,7 @@ app.delete('/api/machines/:id', async (req, res) => {
 
 app.get('/api/maintenance_kits', async (req, res) => {
   try {
-    let whereClause = {};
+    let whereClause: any = {};
     
     // Support filtering logic passed as stringified JSON if needed
     if (req.query.where) {
