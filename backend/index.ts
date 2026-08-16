@@ -866,10 +866,15 @@ app.delete('/api/machine_field_options/:id', async (req, res) => {
 });
 
 // ==========================================
-// DEMARRAGE SERVEUR
+// DEMARRAGE SERVEUR (ou Export pour Vercel)
 // ==========================================
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Serveur Backend démarré sur http://localhost:${PORT}`);
-});
+// Sur Vercel, on doit exporter l'application Express plutôt que d'écouter sur un port fixe
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Serveur Backend démarré sur http://localhost:${PORT}`);
+  });
+}
